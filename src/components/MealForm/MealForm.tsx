@@ -1,11 +1,13 @@
 import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Meal } from "../../types";
+import BtnSpinner from "../Spinner/BtnSpinner";
 
 interface Props {
+  isLoading?: boolean;
   onSubmit: (meal: Meal) => void;
 }
 
-const MealForm: FC<Props> = ({ onSubmit }) => {
+const MealForm: FC<Props> = ({ isLoading = false, onSubmit }) => {
   const [meal, setMeal] = useState<Meal>({
     mealtime: "",
     description: "",
@@ -70,8 +72,8 @@ const MealForm: FC<Props> = ({ onSubmit }) => {
           required
         />
       </div>
-      <button type="submit" className="btn btn-primary">
-        Submit
+      <button type="submit" className="btn btn-primary" disabled={isLoading}>
+        {isLoading && <BtnSpinner/>}Submit
       </button>
     </form>
   );
