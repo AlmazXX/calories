@@ -19,7 +19,14 @@ const MealForm = () => {
     <form>
       <div className="form-group mb-2">
         <label htmlFor="mealTime">Meal Time</label>
-        <select name="mealTime" id="mealTime" className="form-select" required>
+        <select
+          name="mealTime"
+          id="mealTime"
+          className="form-select"
+          value={meal.mealtime}
+          onChange={onMealChange}
+          required
+        >
           <option value="">Please select meal time</option>
           <option value="breakfast">BreakFast</option>
           <option value="snack">Snack</option>
@@ -33,6 +40,8 @@ const MealForm = () => {
           name="description"
           id="description"
           className="form-control"
+          value={meal.description}
+          onChange={onMealChange}
         />
       </div>
       <div className="form-group mb-2">
@@ -42,6 +51,8 @@ const MealForm = () => {
           name="calories"
           id="calories"
           className="form-control"
+          value={meal.calories}
+          onChange={onMealChange}
           required
         />
       </div>
