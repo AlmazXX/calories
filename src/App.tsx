@@ -1,5 +1,6 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
+import MealFormWrapper from "./containers/Forms/MealFormWrapper";
 import Home from "./containers/Home/Home";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <Layout>
       <Routes>
         <Route path='/' element={<Home/>}/>
+        <Route path='/meal/add' element={<MealFormWrapper/>}/>
       </Routes>
     </Layout>
   );
