@@ -1,7 +1,11 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { Meal } from "../../types";
 
-const MealForm = () => {
+interface Props {
+  onSubmit: (meal: Meal) => void;
+}
+
+const MealForm: FC<Props> = ({ onSubmit }) => {
   const [meal, setMeal] = useState<Meal>({
     mealtime: "",
     description: "",
