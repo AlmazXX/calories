@@ -1,13 +1,16 @@
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import { capitalize } from "../../helpers";
 import { ApiMeal } from "../../types";
+import BtnSpinner from "../Spinner/BtnSpinner";
 
 interface Props {
   meal: ApiMeal;
+  isDeleting: boolean;
+  onClick: MouseEventHandler;
 }
 
-const MealItem: FC<Props> = ({meal}) => {
+const MealItem: FC<Props> = ({meal, isDeleting, onClick}) => {
   return (
     <div className="col-12">
       <div className="card">
@@ -19,7 +22,7 @@ const MealItem: FC<Props> = ({meal}) => {
             <Link to={`/meal/${meal.id}/edit`} className="btn btn-primary">
               Edit
             </Link>
-            <button className="btn btn-danger">Delete</button>
+            <button className="btn btn-danger" disabled={isDeleting} onClick={onClick}>{isDeleting && <BtnSpinner/>}Delete</button>
           </div>
         </div>
       </div>

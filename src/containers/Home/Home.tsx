@@ -8,7 +8,7 @@ import { ApiMeal, ApiMealsList } from "../../types";
 const Home = () => {
   const [meals, setMeals] = useState<ApiMeal[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [deleting, setDeleting] = useState(false);
 
   const getMeals = useCallback( async() => {
     try {
@@ -25,6 +25,16 @@ const Home = () => {
     void getMeals();
   }, [getMeals])
 
+  const deleteMeal = async (id: string) => {
+    try {
+      setDeleting(true);
+      await axiosApi.delete(`/meals/${id}.json`);
+      getMeals();
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   return (
     <>
       <div className="row mt-3">
@@ -33,7 +43,7 @@ const Home = () => {
           <Link to="meal/add" className="btn btn-primary">Add new meal</Link>
         </div>
       </div>
-      <div className="row mt-3">{loading ? <Spinner/> : <Meals meals={meals}/>}</div>
+      <div className="row mt-3 gap-3">{loading ? <Spinner/> : <Meals meals={meals} isDeleting={deleting} onDelete={deleteMeal}/>}</div>
     </>
   );
 };
