@@ -2,15 +2,23 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosApi from "../../axiosApi";
 import Meals from "../../components/Meal/Meals";
+import Spinner from "../../components/Spinner/Spinner";
 import { ApiMeal, ApiMealsList } from "../../types";
 
 const Home = () => {
   const [meals, setMeals] = useState<ApiMeal[]>([]);
+  const [loading, setLoading] = useState(false);
+
 
   const getMeals = useCallback( async() => {
-    const {data} = await axiosApi.get<ApiMealsList>('/meals.json');
-    const newMeals = data ? Object.keys(data).map(id => ({...data[id], id})) : [];
-    setMeals(newMeals);
+    try {
+      setLoading(true);
+      const {data} = await axiosApi.get<ApiMealsList | null>('/meals.json');
+      const newMeals = data ? Object.keys(data).map(id => ({...data[id], id})) : [];
+      setMeals(newMeals);
+    } finally{
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => {
@@ -25,7 +33,7 @@ const Home = () => {
           <Link to="meal/add" className="btn btn-primary">Add new meal</Link>
         </div>
       </div>
-      <div className="row mt-3"><Meals meals={meals}/></div>
+      <div className="row mt-3">{loading ? <Spinner/> : <Meals meals={meals}/>}</div>
     </>
   );
 };
