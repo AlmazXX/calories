@@ -1,7 +1,22 @@
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axiosApi from "../../axiosApi";
 import Meals from "../../components/Meal/Meals";
+import { ApiMeal, ApiMealsList } from "../../types";
 
 const Home = () => {
+  const [meals, setMeals] = useState<ApiMeal[]>([]);
+
+  const getMeals = useCallback( async() => {
+    const {data} = await axiosApi.get<ApiMealsList>('/meals.json');
+    const newMeals = data ? Object.keys(data).map(id => ({...data[id], id})) : [];
+    setMeals(newMeals);
+  }, [])
+
+  useEffect(() => {
+    void getMeals();
+  }, [getMeals])
+  
   return (
     <>
       <div className="row mt-3">
