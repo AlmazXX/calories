@@ -1,13 +1,20 @@
 import { ChangeEvent, useState } from "react";
+import { Meal } from "../../types";
 
 const MealForm = () => {
-  const [meal, setMeal] = useState({});
+  const [meal, setMeal] = useState<Meal>({
+    mealtime: "",
+    description: "",
+    calories: 0,
+  });
 
-  const onMealChange = (e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setMeal(prev => ({...prev, [name]: value}))
-  }
-  
+  const onMealChange = (
+    e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    setMeal((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <form>
       <div className="form-group mb-2">
