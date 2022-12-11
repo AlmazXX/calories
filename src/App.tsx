@@ -9,6 +9,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/meal/add' element={<MealFormWrapper/>}/>
+        <Route path='/meal/:id/edit' element={<MealFormWrapper/>}/>
       </Routes>
     </Layout>
   );
