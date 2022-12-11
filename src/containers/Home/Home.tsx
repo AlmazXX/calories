@@ -16,7 +16,7 @@ const Home = () => {
   useEffect(() => {
     void getMeals();
   }, [getMeals])
-  
+
   return (
     <>
       <div className="row mt-3">
@@ -25,7 +25,7 @@ const Home = () => {
           <Link to="meal/add" className="btn btn-primary">Add new meal</Link>
         </div>
       </div>
-      <div className="row mt-3"><Meals/></div>
+      <div className="row mt-3"><Meals meals={meals}/></div>
     </>
   );
 };
