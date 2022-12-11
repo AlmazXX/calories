@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { Meal } from "../../types";
 
 interface Props {
@@ -19,13 +19,23 @@ const MealForm: FC<Props> = ({ onSubmit }) => {
     setMeal((prev) => ({ ...prev, [name]: value }));
   };
 
+  const onFormSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    onSubmit(meal);
+    setMeal({
+      mealtime: "",
+      description: "",
+      calories: 0,
+    });
+  };
+
   return (
-    <form>
+    <form onSubmit={onFormSubmit}>
       <div className="form-group mb-2">
-        <label htmlFor="mealTime">Meal Time</label>
+        <label htmlFor="mealtime">Meal Time</label>
         <select
-          name="mealTime"
-          id="mealTime"
+          name="mealtime"
+          id="mealtime"
           className="form-select"
           value={meal.mealtime}
           onChange={onMealChange}
