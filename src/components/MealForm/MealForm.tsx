@@ -1,34 +1,38 @@
 import { ChangeEvent, FC, FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import { Meal } from "../../types";
 import BtnSpinner from "../Spinner/BtnSpinner";
 
 interface Props {
-  isLoading?: boolean;
+  existingMeal?: Meal;
+  isSaving: boolean;
   onSubmit: (meal: Meal) => void;
 }
 
-const MealForm: FC<Props> = ({ isLoading = false, onSubmit }) => {
-  const [meal, setMeal] = useState<Meal>({
-    mealtime: "",
-    description: "",
-    calories: 0,
-  });
+const initialState = {
+  mealtime: "",
+  description: "",
+  calories: '',
+};
+
+const MealForm: FC<Props> = ({
+  existingMeal = initialState,
+  isSaving = false,
+  onSubmit,
+}) => {
+  const [meal, setMeal] = useState<Meal>(existingMeal);
 
   const onMealChange = (
     e: ChangeEvent<HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
     setMeal((prev) => ({ ...prev, [name]: value }));
   };
 
   const onFormSubmit = (e: FormEvent) => {
     e.preventDefault();
     onSubmit(meal);
-    setMeal({
-      mealtime: "",
-      description: "",
-      calories: 0,
-    });
+    !existingMeal && setMeal(initialState);
   };
 
   return (
@@ -72,9 +76,14 @@ const MealForm: FC<Props> = ({ isLoading = false, onSubmit }) => {
           required
         />
       </div>
-      <button type="submit" className="btn btn-primary" disabled={isLoading}>
-        {isLoading && <BtnSpinner/>}Submit
-      </button>
+      <div className="d-flex gap-3 px-0 mb-3">
+        <button type="submit" className="btn btn-success" disabled={isSaving}>
+          {isSaving && <BtnSpinner />}Save
+        </button>
+        <Link to="/" className="btn btn-danger">
+          Cancel
+        </Link>
+      </div>
     </form>
   );
 };
