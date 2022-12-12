@@ -1,7 +1,7 @@
 export interface Meal {
   mealtime: string;
   description: string;
-  calories: number;
+  calories: string;
 }
 
 export interface ApiMealsList {
@@ -10,4 +10,5 @@ export interface ApiMealsList {
 
 export interface ApiMeal extends Meal {
   id: string;
+  calories: number
 }
