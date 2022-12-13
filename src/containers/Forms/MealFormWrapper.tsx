@@ -61,10 +61,10 @@ const MealFormWrapper = () => {
             <MealForm
               existingMeal={meal}
               isSaving={saving}
-              onSubmit={!id ? addMeal : editMeal}
+              onSubmit={editMeal}
             />
           ) : (
-            <MealForm isSaving={saving} onSubmit={!id ? addMeal : editMeal} />
+            <MealForm isSaving={saving} onSubmit={addMeal} />
           )}
         </div>
       </div>
