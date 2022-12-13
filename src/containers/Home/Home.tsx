@@ -9,14 +9,18 @@ const Home = () => {
   const [meals, setMeals] = useState<ApiMeal[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [deleting, setDeleting] = useState(false);
+  const [idForDelete, setIdForDelete] = useState<string | null>(null);
 
   const getMeals = useCallback(async () => {
     try {
       setLoading(true);
       const { data } = await axiosApi.get<ApiMealsList | null>("/meals.json");
       const newMeals = data
-        ? Object.keys(data).map((id) => ({ ...data[id], calories: parseInt(data[id].calories), id }))
+        ? Object.keys(data).map((id) => ({
+            ...data[id],
+            calories: parseInt(data[id].calories),
+            id,
+          }))
         : [];
       setMeals(newMeals);
     } finally {
@@ -28,18 +32,17 @@ const Home = () => {
     void getMeals();
   }, [getMeals]);
 
-
   useEffect(() => {
-    setTotal(meals.reduce((acc, meal) => acc + meal.calories, 0))
+    setTotal(meals.reduce((acc, meal) => acc + meal.calories, 0));
   }, [meals]);
 
-  const deleteMeal = async (id: string) => {
+  const deleteMeal = async (mealId: string) => {
     try {
-      setDeleting(true);
-      await axiosApi.delete(`/meals/${id}.json`);
+      setIdForDelete(mealId);
+      await axiosApi.delete(`/meals/${mealId}.json`);
       getMeals();
     } finally {
-      setDeleting(false);
+      setIdForDelete(null);
     }
   };
 
@@ -62,7 +65,11 @@ const Home = () => {
         {loading ? (
           <Spinner />
         ) : (
-          <Meals meals={meals} isDeleting={deleting} onDelete={deleteMeal} />
+          <Meals
+            meals={meals}
+            idForDelete={idForDelete}
+            onDelete={deleteMeal}
+          />
         )}
       </div>
     </>
