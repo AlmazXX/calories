@@ -35,7 +35,7 @@ const MealFormWrapper = () => {
     try {
       setLoading(true);
       const { data } = await axiosApi.get<Meal | null>(`/meals/${id}.json`);
-      const existingMeal = data ? data : null;
+      const existingMeal = data ? {...data, date: new Date(data.date)} : null;
       setMeal(existingMeal);
     } finally {
       setLoading(false);
