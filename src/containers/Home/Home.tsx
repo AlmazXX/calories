@@ -16,11 +16,13 @@ const Home = () => {
       setLoading(true);
       const { data } = await axiosApi.get<ApiMealsList | null>("/meals.json");
       const newMeals = data
-        ? Object.keys(data).map((id) => ({
-            ...data[id],
-            calories: parseInt(data[id].calories),
-            id,
-          })).sort((a, b) => b.date > a.date ? 1 : -1)
+        ? Object.keys(data)
+            .map((id) => ({
+              ...data[id],
+              calories: parseInt(data[id].calories),
+              id,
+            }))
+            .sort((a, b) => (b.date > a.date ? 1 : -1))
         : [];
       setMeals(newMeals);
     } finally {
@@ -33,7 +35,15 @@ const Home = () => {
   }, [getMeals]);
 
   useEffect(() => {
-    setTotal(meals.reduce((acc, meal) => acc + meal.calories, 0));
+    setTotal(
+      meals.reduce(
+        (acc, meal) =>
+          new Date(meal.date).toDateString() === new Date().toDateString()
+            ? acc + meal.calories
+            : acc,
+        0
+      )
+    );
   }, [meals]);
 
   const deleteMeal = async (mealId: string) => {
