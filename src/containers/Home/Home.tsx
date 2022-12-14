@@ -20,7 +20,7 @@ const Home = () => {
             ...data[id],
             calories: parseInt(data[id].calories),
             id,
-          }))
+          })).sort((a, b) => b.date > a.date ? 1 : -1)
         : [];
       setMeals(newMeals);
     } finally {
