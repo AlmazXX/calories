@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
-import { capitalize } from "../../helpers";
+import { capitalize, convertDate, convertTime } from "../../helpers";
 import { ApiMeal } from "../../types";
 import BtnSpinner from "../Spinner/BtnSpinner";
 
@@ -15,7 +15,7 @@ const MealItem: FC<Props> = ({meal, isDeleting, onClick}) => {
     <div className="col-12">
       <div className="card">
         <div className="card-body">
-          <p className="small float-sm-end m-0 text-muted">{capitalize(meal.mealtime)}</p>
+          <p className="small float-sm-end m-0 text-muted">{capitalize(meal.mealtime)}: <span>{convertTime(meal.date)}, {convertDate(meal.date)}</span></p>
           <p className="card-title">{meal.description}</p>
           <p className="card-text"><strong>{meal.calories}</strong> kcal</p>
           <div className="d-flex gap-3 px-0 mb-3">
