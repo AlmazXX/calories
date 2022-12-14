@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axiosApi from "../../axiosApi";
 import Meals from "../../components/Meal/Meals";
 import Spinner from "../../components/Spinner/Spinner";
+import { convertDate } from "../../helpers";
 import { ApiMeal, ApiMealsList } from "../../types";
 
 const Home = () => {
@@ -38,7 +39,7 @@ const Home = () => {
     setTotal(
       meals.reduce(
         (acc, meal) =>
-          new Date(meal.date).toDateString() === new Date().toDateString()
+          convertDate(meal.date) === convertDate(new Date())
             ? acc + meal.calories
             : acc,
         0
